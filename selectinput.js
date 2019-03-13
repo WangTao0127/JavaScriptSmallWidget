@@ -153,8 +153,7 @@
             selectInput.clear = function () {
                 container.html("");
             }
-            container.css("left", input.position().left)
-
+            container.css("left", input.offset().left)
             $(document).click(function (e) {
                 if (!$(e.target).is(input)) {
                     hide();
