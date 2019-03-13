@@ -3,33 +3,6 @@
 }
 (function() {
     var SelectInput = { _containerClass: "augus-SelectInput-container", _tierClass: "augus-SelectInput-tier" };
-    SelectInput.tool = function () {
-        function createStyleSheet() {
-            var style = document.createElement('style');
-            style.appendChild(document.createTextNode(""));
-            document.head.appendChild(style);
-            return style.sheet;
-        }
-        var stylesheet = createStyleSheet();
-        function addRule(selector, css) {
-            var propText = typeof css === "string" ? css : Object.keys(css).map(function (p) {
-                console.log(p)
-                return p + ":" + (p === "content" ? "'" + css[p] + "'" : css[p]);
-            }).join(";");
-
-            if (stylesheet.insertRule) {
-                // 标准浏览器支持的
-                stylesheet.insertRule(selector + "{" + propText + "}", stylesheet.cssRules.length);
-
-            } else if (stylesheet.addRule) {
-                // IE支持的
-                stylesheet.addRule(selector, propText, stylesheet.cssRules.length);
-            }
-        }
-        return {
-            addRule: addRule
-        }
-    }();
     SelectInput.createSelectInputBuilder = function () {
         var result = {};
         var containerClass = SelectInput._containerClass + (new Date().getTime() % (1000 * 60 * 60));
@@ -180,6 +153,13 @@
             selectInput.clear = function () {
                 container.html("");
             }
+            container.css("left", input.position().left)
+
+            $(document).click(function (e) {
+                if (!$(e.target).is(input)) {
+                    hide();
+                }
+            })
             return selectInput;
         }
         return result
